@@ -278,9 +278,9 @@ DROP POLICY IF EXISTS "Users can update their own experiences" ON team_members;
 DROP POLICY IF EXISTS "Users can delete their own experiences" ON team_members;
 
 CREATE POLICY "Public can view team_members" ON team_members FOR SELECT USING (true);
-CREATE POLICY "Users can insert their own team_members" ON team_members FOR INSERT WITH CHECK (auth.uid() = author_id);
-CREATE POLICY "Users can update their own team_members" ON team_members FOR UPDATE USING (auth.uid() = author_id);
-CREATE POLICY "Users can delete their own team_members" ON team_members FOR DELETE USING (auth.uid() = author_id);
+CREATE POLICY "Authenticated users can insert team_members" ON team_members FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "Authenticated users can update team_members" ON team_members FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "Authenticated users can delete team_members" ON team_members FOR DELETE USING (auth.role() = 'authenticated');
 
 -- 008_team_members_image.sql
 -- Optional profile photo URL for team members (public site + admin upload)

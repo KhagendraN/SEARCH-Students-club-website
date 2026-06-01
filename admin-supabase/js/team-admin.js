@@ -100,10 +100,10 @@ export async function loadTeamMembers() {
                 </div>
             </div>
             <div class="post-actions">
-                <button class="btn-icon edit-team_member-btn" data-id="${e.id}" title="Edit">
+                <button type="button" class="btn-icon edit-team_member-btn" data-id="${e.id}" title="Edit">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn-icon btn-delete delete-team_member-btn" data-id="${e.id}" title="Delete">
+                <button type="button" class="btn-icon btn-delete delete-team_member-btn" data-id="${e.id}" title="Delete">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
@@ -243,10 +243,8 @@ export async function saveTeamMember() {
         console.error(error);
     } else {
         showToast('TeamMember saved successfully!', 'success');
-        if (!currentTeamMemberId) {
-            showScreen('dashboard');
-            loadTeamMembers();
-        }
+        showScreen('dashboard');
+        loadTeamMembers();
     }
 }
 
