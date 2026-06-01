@@ -1,0 +1,145 @@
+/*===== VARIABLES CSS =====*/
+:root {
+  --header-height: 3rem;
+  --font-semi: 600;
+  /* Ayurvedic palette: earthy greens, warm neutrals, saffron accent */
+  --hue-primary: 140; /* green/olive */
+  --hue-navy: 28; /* warm brown-ish for text */
+  --first-color: hsl(var(--hue-primary), 38%, 28%);
+  --first-color-light: hsl(var(--hue-primary), 30%, 94%);
+  --second-color: hsl(var(--hue-navy), 30%, 20%);
+  --accent-color: hsl(36, 85%, 50%); /* saffron */
+  --accent-color-soft: hsl(36, 80%, 94%);
+  --surface-page: hsl(38, 30%, 98%); /* warm ivory */
+  --surface-card: #ffffff;
+  --text-muted: hsl(215, 16%, 42%);
+  --body-font: "DM Sans", system-ui, sans-serif;
+  --heading-font: "Plus Jakarta Sans", system-ui, sans-serif;
+  --big-font-size: 2rem;
+  --h2-font-size: 1.25rem;
+  --normal-font-size: .938rem;
+  --smaller-font-size: .75rem;
+  --mb-2: 1rem;
+  --mb-4: 2rem;
+  --mb-5: 2.5rem;
+  --mb-6: 3rem;
+  --z-back: -10;
+  --z-fixed: 100;
+}
+
+@media screen and (min-width: 968px) {
+  :root {
+    --big-font-size: 3.5rem;
+    --h2-font-size: 2rem;
+    --normal-font-size: 1rem;
+    --smaller-font-size: .875rem;
+  }
+}
+
+/*===== BASE =====*/
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: var(--header-height) 0 0 0;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  background: var(--surface-page);
+  color: var(--second-color);
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.text {
+  text-align: center;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/*===== CLASS CSS ===== */
+.section-title {
+  position: relative;
+  font-family: var(--heading-font);
+  font-size: var(--h2-font-size);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--second-color);
+  margin-top: var(--mb-2);
+  margin-bottom: 0.35rem;
+  text-align: center;
+}
+
+.section-title::after {
+  position: absolute;
+  content: "";
+  width: 72px;
+  height: 0.28rem;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 2.35rem;
+  background: linear-gradient(90deg, var(--first-color), hsl(var(--hue-primary), 50%, 50%));
+  border-radius: 4px;
+}
+
+.section-intro {
+  text-align: center;
+  margin-bottom: var(--mb-4);
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-intro .section-title {
+  margin-bottom: 0;
+}
+
+.section-intro__lead {
+  margin: 0;
+  padding-top: 2.25rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.section {
+  position: relative;
+  padding-top: 4rem;
+  padding-bottom: 3rem;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: hsl(var(--hue-primary), 30%, 93%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--hue-primary), 45%, 42%);
+  border-radius: 4px;
+}

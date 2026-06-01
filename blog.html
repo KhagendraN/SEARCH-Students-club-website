@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | SEARCH Students' Club</title>
+  <meta name="description" content="Articles from SEARCH Students' Club at Ayurveda Campus, Kirtipur—research, awareness, and student life.">
+  <meta name="keywords" content="SEARCH Students' Club, SEARCH, Ayurveda Campus, blog, research, awareness, Nepal">
+  <link rel="canonical" href="https://search.imdfnepal.org.np/blog.html">
+  <link rel="icon" type="image/png" href="assets/img/logo.svg">
+  <meta name="theme-color" content="#0f766e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c1929" media="(prefers-color-scheme: dark)">
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if (t === 'dark') document.documentElement.classList.add('dark-mode');
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet' media="print" onload="this.media='all'">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  </noscript>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/blog.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="blog-page">
+  <header class="l-header">
+    <nav class="nav bd-grid">
+      <div><a href="index.html" class="nav__logo" style="display:flex;align-items:center;gap:10px;"><img src="assets/img/logo.svg" alt="SEARCH" style="height:35px;"> SEARCH Students' Club</a></div>
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+          <li class="nav__item"><a href="blog.html" class="nav__link active-link">Blog</a></li>
+        </ul>
+      </div>
+      <div class="nav__toggle" id="nav-toggle">
+        <i class='bx bx-menu'></i>
+      </div>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+      </button>
+    </nav>
+  </header>
+  
+  <main>
+    <!-- Blog Hero Section -->
+    <section class="blog-hero">
+      <h1>SEARCH Blog</h1>
+      <p>Research, awareness, student activities, and updates from Ayurveda Campus, Kirtipur.</p>
+    </section>
+    
+    <!-- Blog Container -->
+    <div class="blog-container">
+      <!-- Filter Buttons -->
+      <div class="blog-filters">
+        <button class="filter-btn active" data-filter="all">All Posts</button>
+        <button class="filter-btn" data-filter="tech">Tech</button>
+        <button class="filter-btn" data-filter="tutorial">Tutorials</button>
+        <button class="filter-btn" data-filter="lifestyle">Lifestyle</button>
+        <button class="filter-btn" data-filter="news">News</button>
+        <button class="filter-btn" data-filter="personal">Personal</button>
+      </div>
+      
+      <!-- Blog Grid -->
+      <div class="blog-grid" id="blog-grid">
+        <!-- Posts will be dynamically inserted here -->
+      </div>
+    </div>
+  </main>
+  <!-- Required before ES modules: supabase-config.js uses window.supabase.createClient from this bundle (same as index.html). -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module">
+    import { fetchAllPosts } from './js/blog-api.js';
+
+    let allPosts = [];
+
+    if (typeof marked !== 'undefined') {
+      marked.setOptions({ gfm: true, breaks: true });
+    }
+
+    function escapeHtml(str) {
+      if (str == null || str === '') return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Theme toggle functionality
+    (function() {
+      const toggleBtn = document.getElementById('theme-toggle');
+      if (!toggleBtn) return;
+      const icon = toggleBtn.querySelector('i');
+      const root = document.documentElement;
+      const darkClass = 'dark-mode';
+      
+      function setTheme(dark) {
+        if (dark) {
+          root.classList.add(darkClass);
+          if (icon) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+          }
+          toggleBtn.setAttribute('aria-label', 'Switch to light mode');
+        } else {
+          root.classList.remove(darkClass);
+          if (icon) {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+          }
+          toggleBtn.setAttribute('aria-label', 'Switch to dark mode');
+        }
+      }
+      
+      if (localStorage.getItem('theme') === 'dark') {
+        setTheme(true);
+      } else if (localStorage.getItem('theme') === 'light') {
+        setTheme(false);
+      } else {
+        setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+      
+      toggleBtn.addEventListener('click', function() {
+        dark = !root.classList.contains(darkClass);
+        setTheme(dark);
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      });
+    })();
+
+    // Mobile menu toggle
+    (function() {
+      const navToggle = document.getElementById('nav-toggle');
+      const navMenu = document.getElementById('nav-menu');
+      
+      if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function() {
+          navMenu.classList.toggle('show');
+        });
+      }
+    })();
+
+    function renderPost(post) {
+      const blogGrid = document.getElementById('blog-grid');
+      const postCard = document.createElement('div');
+      postCard.className = `blog-card ${post.genre}`;
+      postCard.setAttribute('data-genre', post.genre);
+      
+      // Fallback image if none provided
+      const imageUrl = post.image_url || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%230f766e"/><text x="200" y="100" text-anchor="middle" fill="white" font-family="system-ui,sans-serif" font-size="16" font-weight="600">Blog</text></svg>';
+
+      postCard.innerHTML = `
+        <img src="${imageUrl}" alt="${post.title}" class="blog-card-image" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%230f766e\'/><text x=\'200\' y=\'100\' text-anchor=\'middle\' fill=\'white\' font-family=\'system-ui,sans-serif\' font-size=\'16\' font-weight=\'600\'>Blog</text></svg>'">
+        <div class="blog-card-content">
+          <span class="blog-genre ${post.genre}">${post.genre}</span>
+          <h3 class="blog-card-title">${post.title}</h3>
+          <p class="blog-card-excerpt">${post.excerpt}</p>
+          <div class="blog-card-meta">
+            <div class="blog-card-meta-primary">
+              <div class="blog-card-date">
+                <i class="fas fa-calendar"></i>
+                <span>${new Date(post.published_at).toLocaleDateString()}</span>
+              </div>
+              <div class="blog-card-read-time">
+                <i class="fas fa-clock"></i>
+                <span>${post.read_time || '—'}</span>
+              </div>
+            </div>
+            ${post.author_name ? `
+              <div class="blog-card-author" title="Writer">
+                <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                <span>${escapeHtml(post.author_name)}</span>
+              </div>` : ''}
+          </div>
+        </div>
+      `;
+      
+      postCard.addEventListener('click', function() {
+        showBlogModal(post);
+      });
+      
+      blogGrid.appendChild(postCard);
+    }
+
+    // Filter functionality
+    async function filterPosts(genre) {
+      const blogGrid = document.getElementById('blog-grid');
+      blogGrid.innerHTML = '<div class="blog-grid__status" role="status">Loading…</div>';
+      
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      
+      // Update active filter button
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.querySelector(`[data-filter="${genre}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+      
+      // Fetch and render posts
+      try {
+        const posts = await fetchAllPosts(genre);
+        blogGrid.innerHTML = '';
+        
+        if (posts.length === 0) {
+          blogGrid.innerHTML = '<div class="blog-grid__status">No posts found.</div>';
+          return;
+        }
+
+        posts.forEach(post => renderPost(post));
+      } catch (err) {
+        console.error('Error filtering posts:', err);
+        blogGrid.innerHTML = '<div class="blog-grid__status">Error loading posts. Please try again later.</div>';
+      }
+    }
+
+    // Modal logic for full post view
+    function showBlogModal(post) {
+      // Remove any existing modal
+      const oldModal = document.querySelector('.blog-modal');
+      if (oldModal) oldModal.remove();
+      
+      // Create modal
+      const modal = document.createElement('div');
+      modal.className = 'blog-modal';
+      modal.innerHTML = `
+        <div class="blog-modal-content">
+          <button class="blog-modal-close" aria-label="Close">&times;</button>
+          <div class="blog-modal-header">
+            <span class="blog-genre ${post.genre}">${post.genre}</span>
+            <h1 class="blog-card-title" style="margin: 1rem 0 0.5rem 0;">${post.title}</h1>
+            <div class="blog-modal-meta-row">
+              <div class="blog-card-meta" style="margin-top: 0;">
+                <div class="blog-card-meta-primary">
+                  <div class="blog-card-date">
+                    <i class="fas fa-calendar"></i>
+                    <span>${new Date(post.published_at).toLocaleDateString()}</span>
+                  </div>
+                  <div class="blog-card-read-time">
+                    <i class="fas fa-clock"></i>
+                    <span>${post.read_time || '—'}</span>
+                  </div>
+                </div>
+              </div>
+              ${post.author_name ? `
+                <p class="blog-modal-byline"><span class="blog-modal-byline-label">By</span> ${escapeHtml(post.author_name)}</p>` : ''}
+            </div>
+          </div>
+          <div class="blog-modal-body">
+            ${marked.parse(post.content)}
+          </div>
+        </div>
+      `;
+      
+      // Close modal functionality
+      modal.querySelector('.blog-modal-close').onclick = function() {
+        modal.remove();
+      };
+      
+      // Close on backdrop click
+      modal.onclick = function(e) {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      };
+      
+      // Close on Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.querySelector('.blog-modal')) {
+          modal.remove();
+        }
+      });
+      
+      document.body.appendChild(modal);
+    }
+
+    // Initialize blog
+    document.addEventListener('DOMContentLoaded', async function() {
+      const blogGrid = document.getElementById('blog-grid');
+      blogGrid.innerHTML = '<div class="blog-grid__status" role="status">Loading posts…</div>';
+
+      try {
+        const posts = await fetchAllPosts();
+        blogGrid.innerHTML = '';
+        
+        if (posts.length === 0) {
+          blogGrid.innerHTML = '<div class="blog-grid__status">No posts found.</div>';
+        } else {
+          posts.forEach(post => renderPost(post));
+        }
+      } catch (err) {
+        console.error('Error loading initial posts:', err);
+        blogGrid.innerHTML = '<div class="blog-grid__status">Error loading posts. Please check your connection.</div>';
+      }
+
+      // Add filter event listeners
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const genre = this.getAttribute('data-filter');
+          filterPosts(genre);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

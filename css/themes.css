@@ -1,0 +1,284 @@
+/*===== DARK MODE STYLES (Ayurvedic Theme: Deep Forest Green, Cream & Saffron) =====*/
+.dark-mode {
+  background: #0a110d !important;
+  color: #eae3d2 !important;
+}
+
+.dark-mode .section-title {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .footer {
+  background: #132219 !important;
+  color: #eae3d2 !important;
+}
+
+.dark-mode .button {
+  background: #132219 !important;
+  color: #eae3d2 !important;
+}
+
+.dark-mode .button:hover,
+.dark-mode .button:focus {
+  background: var(--first-color) !important;
+  color: #fff !important;
+}
+
+.dark-mode .contact__input {
+  background: #132219 !important;
+  color: #eae3d2 !important;
+  border-color: hsl(var(--hue-primary), 35%, 34%) !important;
+}
+
+.dark-mode .form-status--ok {
+  background: #132219 !important;
+  color: #f3ba65 !important;
+}
+
+.dark-mode .form-status--error {
+  background: #3b1f1f !important;
+  color: #ff6b6b !important;
+}
+
+/* Dark mode for all sections */
+.dark-mode .section,
+.dark-mode .bd-grid,
+.dark-mode .about__container,
+.dark-mode .skills__container,
+.dark-mode .projects__container,
+.dark-mode .timeline__container,
+.dark-mode .contact__container {
+  background: #0a110d !important;
+  color: #eae3d2 !important;
+}
+
+.dark-mode .project__card,
+.dark-mode .skills__group,
+.dark-mode .timeline__item,
+.dark-mode .team__card,
+.dark-mode .contact__form {
+  background: #132219 !important;
+  color: #eae3d2 !important;
+}
+
+.dark-mode .team__card {
+  border-color: rgba(243, 186, 101, 0.12) !important;
+}
+
+.dark-mode .team__name {
+  color: #f8fafc !important;
+}
+
+.dark-mode .team__title-role {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .team__date {
+  color: #eae3d2 !important;
+  opacity: 0.85;
+}
+
+.dark-mode .team__desc {
+  color: #eae3d2 !important;
+  opacity: 0.9;
+}
+
+.dark-mode .team__photo {
+  border-color: rgba(243, 186, 101, 0.2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.dark-mode .project__title,
+.dark-mode .project__desc,
+.dark-mode .skills__category,
+.dark-mode .skills__desc,
+.dark-mode .timeline__role,
+.dark-mode .timeline__desc,
+.dark-mode .footer__title,
+.dark-mode .footer__tagline {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .nav__menu,
+.dark-mode .nav,
+.dark-mode .l-header {
+  background: #132219 !important;
+  color: #eae3d2 !important;
+}
+
+.dark-mode .nav__link,
+.dark-mode .nav__logo {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .active-link {
+  color: #ffffff !important;
+}
+
+.dark-mode .nav__dropdown-menu {
+  background: #0d1712 !important;
+  border-color: rgba(243, 186, 101, 0.15) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55) !important;
+}
+
+.dark-mode .nav__dropdown-btn {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .nav__dropdown--current .nav__dropdown-btn {
+  color: #ffffff !important;
+}
+
+.dark-mode .nav__dropdown-link {
+  color: #eae3d2 !important;
+}
+
+.dark-mode .nav__dropdown-link:hover,
+.dark-mode .nav__dropdown-link:focus-visible {
+  background: rgba(243, 186, 101, 0.08) !important;
+}
+
+.dark-mode .theme-toggle {
+  color: #f3ba65 !important;
+  background: rgba(243, 186, 101, 0.08) !important;
+}
+
+.dark-mode .theme-toggle:hover,
+.dark-mode .theme-toggle:focus-visible {
+  background: rgba(243, 186, 101, 0.14) !important;
+}
+
+.dark-mode .project__modal-content {
+  background: #132219 !important;
+  color: #eae3d2 !important;
+  border: 1px solid rgba(243, 186, 101, 0.15);
+}
+
+.dark-mode .project__modal-title {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .project__modal-desc {
+  color: #eae3d2 !important;
+}
+
+.dark-mode .project__modal-links a {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .project__modal-links a:hover,
+.dark-mode .project__modal-links a:focus {
+  color: #ffffff !important;
+}
+
+.dark-mode .achievement__card {
+  background: #132219 !important;
+  color: #eae3d2 !important;
+}
+
+.dark-mode .achievement__title {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .achievement__issuer {
+  color: #eae3d2 !important;
+  opacity: 0.85;
+}
+
+.dark-mode .achievement__desc {
+  color: #eae3d2 !important;
+  opacity: 0.9;
+}
+
+.dark-mode .achievement__link {
+  color: #f3ba65 !important;
+  text-decoration: underline;
+}
+
+.dark-mode .achievement__link:hover,
+.dark-mode .achievement__link:focus {
+  color: #ffffff !important;
+}
+
+.dark-mode .achievement__icon,
+.dark-mode .achievement__icon-link {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .ios-pillar-card,
+.dark-mode .ios-domain-card,
+.dark-mode .ios-panel {
+  background: #132219 !important;
+  border-color: rgba(243, 186, 101, 0.1) !important;
+  color: #eae3d2 !important;
+}
+
+.dark-mode .ios-pillar-card__title,
+.dark-mode .ios-domain-card__title,
+.dark-mode .ios-panel__heading,
+.dark-mode .ios-def-list dt {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .ios-pillar-card__text,
+.dark-mode .ios-domain-card__list,
+.dark-mode .ios-def-list dd,
+.dark-mode .ios-check-list li {
+  color: #eae3d2 !important;
+  opacity: 0.85;
+}
+
+.dark-mode .ios-pillar-card__icon {
+  background: rgba(243, 186, 101, 0.1) !important;
+  color: #f3ba65 !important;
+}
+
+/* Hero: glass over video in dark mode */
+.dark-mode .hero__content {
+  background: linear-gradient(135deg,
+      rgba(19, 34, 25, 0.82) 0%,
+      rgba(10, 17, 13, 0.65) 50%,
+      rgba(19, 34, 25, 0.75) 100%) !important;
+  border-color: rgba(243, 186, 101, 0.16) !important;
+  box-shadow:
+    0 1px 0 rgba(243, 186, 101, 0.08) inset,
+    0 12px 40px rgba(0, 0, 0, 0.55) !important;
+}
+
+.dark-mode .hero__title {
+  color: #ffffff !important;
+}
+
+.dark-mode .hero__subtitle,
+.dark-mode .hero__stats span {
+  color: #eae3d2 !important;
+  opacity: 0.9;
+}
+
+.dark-mode .hero__stats strong {
+  color: #ffffff !important;
+}
+
+.dark-mode .hero__stats li {
+  background: rgba(243, 186, 101, 0.08) !important;
+  border-color: rgba(243, 186, 101, 0.12) !important;
+}
+
+.dark-mode .hero__social-icon {
+  color: #eae3d2 !important;
+}
+
+/* Section top dividers — darker wave blend for dark backgrounds */
+.dark-mode main > .section::before {
+  background-image:
+    linear-gradient(90deg,
+      transparent 0%,
+      rgba(243, 186, 101, 0.15) 22%,
+      rgba(243, 186, 101, 0.1) 50%,
+      rgba(243, 186, 101, 0.15) 78%,
+      transparent 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 56' preserveAspectRatio='none'%3E%3Cpath fill='%23132219' fill-opacity='0.9' d='M0 40 C320 14 560 52 880 34 C1080 22 1260 8 1440 22 V56 H0Z'/%3E%3C/svg%3E") !important;
+  background-size: 100% 4px, 100% 100% !important;
+  background-position: center calc(50% + 14px), center top !important;
+  background-repeat: no-repeat !important;
+}

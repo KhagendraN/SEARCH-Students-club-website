@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Admin | SEARCH Students' Club</title>
+    <meta name="theme-color" content="#0f766e">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS Modules -->
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/sections.css">
+    <link rel="stylesheet" href="../css/themes.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <!-- Supabase (UMD) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body class="admin-body">
+    <div id="app">
+        <!-- Login Screen -->
+        <div id="login-screen" class="admin-screen">
+            <div class="login-card">
+                <h2>Admin Login</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="button">Login</button>
+                    <div id="login-error" class="error-msg"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboard-screen" class="admin-screen hidden">
+            <header class="admin-header">
+                <h1>Admin Dashboard</h1>
+                <div class="header-actions">
+                    <span id="user-email"></span>
+                    <button id="logout-btn" class="button button--outline">Logout</button>
+                </div>
+            </header>
+
+            <main class="admin-main">
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <h3>Blog Posts</h3>
+                        <p id="stat-posts">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Articles</h3>
+                        <p id="stat-projects">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Team</h3>
+                        <p id="stat-experiences">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Events</h3>
+                        <p id="stat-achievements">-</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-controls">
+                    <div class="tab-controls">
+                        <button id="tab-posts" class="tab-btn active">Blog Posts</button>
+                        <button id="tab-projects" class="tab-btn">Research Articles</button>
+                        <button id="tab-experiences" class="tab-btn">Team</button>
+                        <button id="tab-achievements" class="tab-btn">Events</button>
+                        <button id="tab-profile" class="tab-btn">Profile</button>
+                    </div>
+                    <div class="action-controls">
+                        <button id="new-btn" class="button"><i class="fas fa-plus"></i> New</button>
+                        <div class="search-box">
+                            <input type="text" id="search-input" placeholder="Search...">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="posts-view">
+                    <div class="posts-list" id="posts-list">
+                        <!-- Posts will be rendered here -->
+                        <div class="loading">Loading posts...</div>
+                    </div>
+                </div>
+
+                <div id="projects-view" class="hidden">
+                    <div class="posts-list" id="projects-list">
+                        <!-- Projects will be rendered here -->
+                        <div class="loading">Loading articles...</div>
+                    </div>
+                </div>
+
+                <div id="experiences-view" class="hidden">
+                    <div class="posts-list" id="team_members-list">
+                        <!-- Teams will be rendered here -->
+                        <div class="loading">Loading experiences...</div>
+                    </div>
+                </div>
+
+                <div id="achievements-view" class="hidden">
+                    <div class="posts-list" id="events-list">
+                        <!-- Events will be rendered here -->
+                        <div class="loading">Loading achievements...</div>
+                    </div>
+                </div>
+
+                <div id="profile-view" class="hidden">
+                    <div class="profile-settings">
+                        <h3>Profile Settings</h3>
+                        <form id="profile-form" class="editor-form">
+                            <div class="form-group">
+                                <label for="profile-hero-image">Hero Image (Profile Picture)</label>
+                                <div class="image-input-group">
+                                    <input type="text" id="profile-hero-image" placeholder="https://..." readonly>
+                                    <input type="file" id="profile-hero-upload" accept="image/*" style="display: none;">
+                                    <button type="button" id="profile-hero-upload-btn"
+                                        class="button button--outline">Upload</button>
+                                </div>
+                                <div id="profile-hero-preview" style="margin-top: 1rem;">
+                                    <img id="profile-hero-preview-img" src="" alt="Hero Preview"
+                                        style="max-width: 200px; border-radius: 50%; display: none;">
+                                </div>
+                            </div>
+
+                            <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e0e0e0;">
+                            <h4 style="margin-bottom: 1rem;">About Section</h4>
+
+                            <div class="form-group">
+                                <label for="profile-about-image">About Image</label>
+                                <div class="image-input-group">
+                                    <input type="text" id="profile-about-image" placeholder="https://..." readonly>
+                                    <input type="file" id="profile-about-upload" accept="image/*"
+                                        style="display: none;">
+                                    <button type="button" id="profile-about-upload-btn"
+                                        class="button button--outline">Upload</button>
+                                </div>
+                                <div id="profile-about-preview" style="margin-top: 1rem;">
+                                    <img id="profile-about-preview-img" src="" alt="About Preview"
+                                        style="max-width: 200px; border-radius: 1rem; display: none;">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profile-about-subtitle">About Subtitle</label>
+                                <input type="text" id="profile-about-subtitle" placeholder="e.g. SEARCH at Ayurveda Campus">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profile-about-text">About Text</label>
+                                <textarea id="profile-about-text" rows="6"
+                                    placeholder="Write about yourself..."></textarea>
+                            </div>
+
+                            <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e0e0e0;">
+
+                            <div class="form-group">
+                                <label for="profile-cv">CV (PDF)</label>
+                                <div class="image-input-group">
+                                    <input type="text" id="profile-cv" placeholder="https://..." readonly>
+                                    <input type="file" id="profile-cv-upload" accept=".pdf" style="display: none;">
+                                    <button type="button" id="profile-cv-upload-btn"
+                                        class="button button--outline">Upload</button>
+                                </div>
+                                <div id="profile-cv-status"
+                                    style="margin-top: 0.5rem; font-size: 0.9rem; color: #4a4e69;"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="button" id="profile-save-btn" class="button">Save Profile</button>
+                                <span id="profile-save-status" style="margin-left: 1rem;"></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Blog Editor Screen -->
+        <div id="editor-screen" class="admin-screen hidden">
+            <!-- ... existing blog editor ... -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <button id="back-btn" class="button button--outline"><i class="fas fa-arrow-left"></i> Back</button>
+                    <h1 id="editor-title">New Post</h1>
+                </div>
+                <div class="header-actions">
+                    <span id="save-status"></span>
+                    <button id="save-btn" class="button">Save</button>
+                </div>
+            </header>
+
+            <main class="admin-main editor-layout">
+                <form id="post-form" class="editor-form">
+                    <!-- ... existing form fields ... -->
+                    <div class="form-group">
+                        <label for="post-title">Title</label>
+                        <input type="text" id="post-title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post-author-name">Writer name</label>
+                        <input type="text" id="post-author-name" placeholder="e.g. Priya Sharma — shown on the blog"
+                            maxlength="120" autocomplete="name">
+                        <p class="form-hint">How readers see the author on cards and the full article. You can change it per post.</p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="post-slug">Slug</label>
+                            <input type="text" id="post-slug" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="post-genre">Genre</label>
+                            <select id="post-genre">
+                                <option value="tech">Tech</option>
+                                <option value="tutorial">Tutorial</option>
+                                <option value="lifestyle">Lifestyle</option>
+                                <option value="news">News</option>
+                                <option value="personal">Personal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="post-date">Publish Date</label>
+                            <input type="datetime-local" id="post-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="post-readtime">Read Time</label>
+                            <input type="text" id="post-readtime" placeholder="e.g. 5 min">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post-image">Cover Image URL</label>
+                        <div class="image-input-group">
+                            <input type="text" id="post-image" placeholder="https://...">
+                            <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                            <button type="button" id="upload-btn" class="button button--outline">Upload</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post-excerpt">Excerpt</label>
+                        <textarea id="post-excerpt" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="post-published">
+                            Published
+                        </label>
+                    </div>
+
+                    <div class="form-group markdown-form-group">
+                        <div class="markdown-field-head">
+                            <label for="post-content">Article body</label>
+                            <p class="form-hint markdown-intro-hint">Write in Markdown. Use the toolbar for common formatting, or type shortcuts like <code>**bold**</code> and <code># Heading</code>. Preview updates as you type.</p>
+                        </div>
+                        <div class="markdown-toolbar" id="markdown-toolbar" aria-label="Insert Markdown">
+                            <span class="markdown-toolbar-label">Insert</span>
+                            <button type="button" class="md-tool-btn" data-md="bold" title="Bold (** **)"><i class="fas fa-bold" aria-hidden="true"></i><span class="sr-only">Bold</span></button>
+                            <button type="button" class="md-tool-btn" data-md="italic" title="Italic (* *)"><i class="fas fa-italic" aria-hidden="true"></i><span class="sr-only">Italic</span></button>
+                            <button type="button" class="md-tool-btn" data-md="link" title="Link"><i class="fas fa-link" aria-hidden="true"></i><span class="sr-only">Link</span></button>
+                            <button type="button" class="md-tool-btn" data-md="h2" title="Heading ##"><i class="fas fa-heading" aria-hidden="true"></i><span class="sr-only">Heading</span></button>
+                            <button type="button" class="md-tool-btn" data-md="quote" title="Blockquote"><i class="fas fa-quote-right" aria-hidden="true"></i><span class="sr-only">Quote</span></button>
+                            <button type="button" class="md-tool-btn" data-md="ul" title="Bullet list"><i class="fas fa-list-ul" aria-hidden="true"></i><span class="sr-only">Bullet list</span></button>
+                            <button type="button" class="md-tool-btn" data-md="ol" title="Numbered list"><i class="fas fa-list-ol" aria-hidden="true"></i><span class="sr-only">Numbered list</span></button>
+                            <button type="button" class="md-tool-btn" data-md="code" title="Inline code"><i class="fas fa-code" aria-hidden="true"></i><span class="sr-only">Inline code</span></button>
+                            <button type="button" class="md-tool-btn" data-md="fence" title="Code block ```"><i class="fas fa-file-code" aria-hidden="true"></i><span class="sr-only">Code block</span></button>
+                            <button type="button" class="md-tool-btn" data-md="hr" title="Horizontal rule"><i class="fas fa-minus" aria-hidden="true"></i><span class="sr-only">Horizontal rule</span></button>
+                        </div>
+                        <div class="markdown-editor">
+                            <div class="markdown-pane markdown-pane--write">
+                                <span class="markdown-pane-label">Write</span>
+                                <textarea id="post-content" class="markdown-source" placeholder="# Hello&#10;&#10;Tell your story here. Single line breaks show as new paragraphs in preview." spellcheck="true"></textarea>
+                            </div>
+                            <div class="markdown-pane markdown-pane--preview">
+                                <span class="markdown-pane-label">Live preview</span>
+                                <div id="markdown-preview" class="markdown-preview"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <!-- Project Editor Screen -->
+        <div id="project-editor-screen" class="admin-screen hidden">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button id="project-back-btn" class="button button--outline"><i class="fas fa-arrow-left"></i>
+                        Back</button>
+                    <h1 id="project-editor-title">New Article</h1>
+                </div>
+                <div class="header-actions">
+                    <span id="project-save-status"></span>
+                    <button id="project-save-btn" class="button">Save</button>
+                </div>
+            </header>
+
+            <main class="admin-main editor-layout">
+                <form id="project-form" class="editor-form">
+                    <div class="form-group">
+                        <label for="project-title">Title</label>
+                        <input type="text" id="project-title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project-desc">Description</label>
+                        <textarea id="project-desc" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project-image">Image URL</label>
+                        <div class="image-input-group">
+                            <input type="text" id="project-image" placeholder="https://...">
+                            <input type="file" id="project-image-upload" accept="image/*" style="display: none;">
+                            <button type="button" id="project-upload-btn" class="button button--outline">Upload</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="project-github">Article PDF Link</label>
+                            <input type="text" id="project-github">
+                        </div>
+                        <div class="form-group">
+                            <label for="project-demo">Full Text / Link</label>
+                            <input type="text" id="project-demo">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project-tech">Keywords (comma separated)</label>
+                        <input type="text" id="project-tech" placeholder="Ayurveda, Herbology, Clinical Trial">
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="project-pinned">
+                            Pinned (Show on main page)
+                        </label>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <!-- Team Editor Screen -->
+        <div id="team_member-editor-screen" class="admin-screen hidden">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button id="team_member-back-btn" class="button button--outline"><i class="fas fa-arrow-left"></i>
+                        Back</button>
+                    <h1 id="team_member-editor-title">New Team</h1>
+                </div>
+                <div class="header-actions">
+                    <span id="team_member-save-status"></span>
+                    <button id="team_member-save-btn" class="button">Save</button>
+                </div>
+            </header>
+
+            <main class="admin-main editor-layout">
+                <form id="team_member-form" class="editor-form">
+                    <div class="form-group">
+                        <label for="team_member-member_group">Type</label>
+                        <select id="team_member-member_group" required>
+                            <option value="education">Education</option>
+                            <option value="experience">Team</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team_member-full-name">Full name</label>
+                        <input type="text" id="team_member-full-name" placeholder="e.g. Full name" required autocomplete="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team_member-role-title">Role / title</label>
+                        <input type="text" id="team_member-role-title" placeholder="e.g. Vice President, Lead Developer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team_member-date">Date Range</label>
+                        <input type="text" id="team_member-date" placeholder="e.g. 2024 - Present" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team_member-org">Organization (Optional)</label>
+                        <input type="text" id="team_member-org" placeholder="e.g. Company Name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team_member-photo">Photo</label>
+                        <p class="form-hint" style="margin: 0 0 0.5rem; font-size: 0.85rem; color: #64748b;">Optional. Upload or paste a public image URL; shown on the site Team section.</p>
+                        <div class="image-input-group">
+                            <input type="url" id="team_member-photo" placeholder="https://..." autocomplete="off">
+                            <input type="file" id="team_member-photo-upload" accept="image/*" style="display: none;">
+                            <button type="button" id="team_member-photo-upload-btn" class="button button--outline">Upload</button>
+                        </div>
+                        <img id="team_member-photo-preview" alt="" style="display: none; max-width: 120px; max-height: 120px; width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-top: 0.75rem; border: 1px solid rgba(0,0,0,0.08);">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team_member-desc">Description</label>
+                        <textarea id="team_member-desc" rows="5" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team_member-order">Display Order</label>
+                        <input type="number" id="team_member-order" value="0" min="0">
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <!-- Achievement Editor Screen -->
+        <div id="event-editor-screen" class="admin-screen hidden">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button id="event-back-btn" class="button button--outline"><i class="fas fa-arrow-left"></i>
+                        Back</button>
+                    <h1 id="event-editor-title">New Achievement</h1>
+                </div>
+                <div class="header-actions">
+                    <span id="event-save-status"></span>
+                    <button id="event-save-btn" class="button">Save</button>
+                </div>
+            </header>
+
+            <main class="admin-main editor-layout">
+                <form id="event-form" class="editor-form">
+                    <div class="form-group">
+                        <label for="event-title">Title</label>
+                        <input type="text" id="event-title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event-desc">Description</label>
+                        <textarea id="event-desc" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-location">Issuer</label>
+                            <input type="text" id="event-location" placeholder="e.g. Google, Coursera">
+                        </div>
+                        <div class="form-group">
+                            <label for="event-date">Event Date</label>
+                            <input type="date" id="event-date">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event-image">Image URL</label>
+                        <div class="image-input-group">
+                            <input type="text" id="event-image" placeholder="https://...">
+                            <input type="file" id="event-image-upload" accept="image/*" style="display: none;">
+                            <button type="button" id="event-upload-btn"
+                                class="button button--outline">Upload</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event-link">Registration / external link</label>
+                        <input type="url" id="event-link" placeholder="https://forms.gle/... or event page" autocomplete="off">
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="event-pinned">
+                            Pinned (Show on main page)
+                        </label>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <script type="module" src="js/admin-main.js"></script>
+</body>
+
+</html>

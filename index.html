@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEARCH Students' Club | Ayurveda Campus, Kirtipur</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/img/logo.svg">
+    <link rel="apple-touch-icon" href="assets/img/logo.svg">
+
+    <!-- Theme Color for Mobile Browsers -->
+    <meta name="theme-color" content="#0f766e" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0c1929" media="(prefers-color-scheme: dark)">
+
+    <!-- Prevent Dark Mode Flash -->
+    <script>
+        (function () {
+            const theme = localStorage.getItem('theme') ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
+
+    <!-- Preconnect to External Domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+    <!-- Preload Critical Assets -->
+    <link rel="preload" as="style" href="css/base.css">
+    <link rel="preload" as="image" href="assets/img/profile-final.png">
+    <!-- CSS Modules -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/chat.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Boxicons & FontAwesome (Deferred for Performance) -->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet' media="print"
+        onload="this.media='all'">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    </noscript>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="SEARCH Students' Club is a student-led Ayurveda community at Ayurveda Campus, Kirtipur, Kathmandu. We promote health awareness, publish research, and support student learning.">
+    <meta name="keywords"
+        content="SEARCH Students' Club, SEARCH, Ayurveda Campus, Kirtipur, Kathmandu, Ayurveda students, student community, research, health awareness">
+    <meta name="author" content="SEARCH Students' Club">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://search.imdfnepal.org.np/">
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://search.imdfnepal.org.np/">
+    <meta property="og:site_name" content="SEARCH Students' Club">
+    <meta property="og:title" content="SEARCH Students' Club | Ayurveda Campus, Kirtipur">
+    <meta property="og:description"
+        content="SEARCH Students' Club is a student-led Ayurveda community at Ayurveda Campus, Kirtipur, focused on research, awareness, and student growth.">
+    <meta property="og:image" content="https://search.imdfnepal.org.np/assets/img/profile-final.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="SEARCH Students' Club">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://search.imdfnepal.org.np/">
+    <meta name="twitter:title" content="SEARCH Students' Club | Ayurveda Campus, Kirtipur">
+    <meta name="twitter:description"
+        content="A student-led Ayurveda club focused on research, awareness, and community growth at Ayurveda Campus, Kirtipur.">
+    <meta name="twitter:image" content="https://search.imdfnepal.org.np/assets/img/profile-final.png">
+    <meta name="twitter:image:alt" content="SEARCH Students' Club">
+    <meta name="twitter:creator" content="@search_students_club">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+            "name": "SEARCH Students' Club",
+            "alternateName": "SEARCH",
+            "url": "https://search.imdfnepal.org.np",
+            "logo": "https://search.imdfnepal.org.np/assets/img/logo.svg",
+            "image": "https://search.imdfnepal.org.np/assets/img/themeimage.jpeg",
+            "description": "Student-led Ayurveda club at Ayurveda Campus, Kirtipur, Kathmandu—focused on research, awareness, and student growth.",
+      "parentOrganization": {
+        "@type": "EducationalOrganization",
+                "name": "Ayurveda Campus, Kirtipur"
+      },
+            "email": "mailto:search.students.club@example.com"
+    }
+    </script>
+
+    <!-- Additional Structured Data for Website -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+    "name": "SEARCH Students' Club",
+    "url": "https://search.imdfnepal.org.np",
+    "description": "Official site for SEARCH Students' Club: mission, activities, research, events, and how to join.",
+      "inLanguage": "en-US",
+      "publisher": {
+        "@type": "Organization",
+        "name": "SEARCH Students' Club"
+      }
+    }
+    </script>
+
+    <!-- Marked.js for Markdown Parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+    <!--===== HEADER =====-->
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <div>
+                <a href="#" class="nav__logo" style="display:flex; align-items:center; gap:10px;"><img src="assets/img/logo.svg" alt="SEARCH" style="height:35px;"> SEARCH Students' Club</a>
+            </div>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#hero" class="nav__link active-link">Home</a></li>
+                    <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+                    <li class="nav__item"><a href="#projects" class="nav__link">Research</a></li>
+                    <li class="nav__item"><a href="#events" class="nav__link">Events</a></li>
+                    <li class="nav__item"><a href="#team" class="nav__link">Team</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+                    <li class="nav__item nav__dropdown" id="nav-dropdown-others">
+                        <button type="button" class="nav__dropdown-btn" id="nav-others-toggle" aria-expanded="false" aria-controls="nav-others-menu" aria-haspopup="true">
+                            Others
+                            <i class="fas fa-chevron-down nav__dropdown-chevron" aria-hidden="true"></i>
+                        </button>
+                        <ul class="nav__dropdown-menu" id="nav-others-menu" role="menu">
+                            <li role="none"><a role="menuitem" href="#what-we-do" class="nav__link nav__dropdown-link">Approach</a></li>
+                            <li role="none"><a role="menuitem" href="#domains" class="nav__link nav__dropdown-link">Domains</a></li>
+                            <li role="none"><a role="menuitem" href="#objectives" class="nav__link nav__dropdown-link">Goals</a></li>
+                            <li role="none"><a role="menuitem" href="#benefits" class="nav__link nav__dropdown-link">Why join</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-menu'></i>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+    <main class="l-main">
+        <!--===== HERO SECTION =====-->
+        <section class="hero" id="hero">
+            <div class="hero__bg" aria-hidden="true">
+                <img class="hero__video" src="assets/img/hero-bg.jpg" alt="SEARCH Students' Club Community Health Camp & Ayurveda Workshop">
+                <div class="hero__bg-shade"></div>
+            </div>
+            <div class="hero__content">
+                <p class="hero__eyebrow">Ayurveda Campus, Kirtipur · Student club · Research and awareness</p>
+                <h1 class="hero__title">Welcome to <span class="hero__title-color">SEARCH Students' Club</span></h1>
+                <p class="hero__subtitle">SEARCH Students' Club is a student-led organization at Ayurveda Campus, Kirtipur, Kathmandu. We promote health awareness, publish research, and create a supportive academic community for Ayurveda students.</p>
+                <ul class="hero__stats" aria-label="How SEARCH works">
+                    <li><strong>Research</strong><span>Ayurveda-focused topics</span></li>
+                    <li><strong>Awareness</strong><span>Health and outreach</span></li>
+                    <li><strong>Grow</strong><span>Student learning &amp; collaboration</span></li>
+                </ul>
+                <div class="hero__buttons">
+                    <a href="#about" class="button">About SEARCH</a>
+                    <a href="#contact" class="button button--outline">Get in touch</a>
+                    <a href="blog.html" class="button button--blogs">Club blog</a>
+                </div>
+                <div class="hero__social">
+                    <a href="#contact" class="hero__social-icon" aria-label="Contact SEARCH Students' Club"><i class="fas fa-envelope"></i></a>
+                    <a href="#events" class="hero__social-icon" aria-label="View SEARCH events"><i class="fas fa-calendar-days"></i></a>
+                    <a href="#team" class="hero__social-icon" aria-label="Meet SEARCH team"><i class="fas fa-users"></i></a>
+                    <a href="#about" class="hero__social-icon" aria-label="About SEARCH Students' Club"><i class="fas fa-leaf"></i></a>
+                </div>
+            </div>
+            
+            <a href="#about" class="hero__scroll-indicator" aria-label="Scroll to About">
+                <span class="hero__scroll-arrow">&#8595;</span>
+            </a>
+
+        </section>
+        <!--===== ABOUT SECTION =====-->
+        <section class="about section" id="about">
+            <div class="section-intro">
+                <h2 class="section-title">About SEARCH</h2>
+                <p class="section-intro__lead">Ayurveda students building a research, awareness, and support community in Kirtipur.</p>
+            </div>
+            <div class="about__container bd-grid">
+
+                <div class="about__content">
+                    <h3 class="about__subtitle">Who we are</h3>
+                    <p class="about__text">Welcome to <strong>SEARCH Students' Club</strong>—the student-led club of Ayurveda students at Ayurveda Campus, Kirtipur, Kathmandu. We bring together students who want to learn, research, and work for better health awareness and academic growth.</p>
+                    <p class="about__text about__text--second">Our focus is on <strong>research publication</strong>, <strong>health awareness</strong>, student collaboration, and building a supportive club culture that helps Ayurveda learners grow beyond the classroom.</p>
+                </div>
+            </div>
+
+        </section>
+        <!--===== WHAT WE DO =====-->
+        <section class="what-we-do section" id="what-we-do">
+            <div class="section-intro">
+                <h2 class="section-title">What we do</h2>
+                <p class="section-intro__lead">How SEARCH turns student energy into awareness, research, and service.</p>
+            </div>
+            <div class="ios-pillar-grid bd-grid">
+                <article class="ios-pillar-card">
+                    <div class="ios-pillar-card__icon" aria-hidden="true"><i class="fas fa-microscope"></i></div>
+                    <h3 class="ios-pillar-card__title">Research-driven</h3>
+                    <p class="ios-pillar-card__text">We explore Ayurveda and health-related topics through student research before turning ideas into action and publication.</p>
+                </article>
+                <article class="ios-pillar-card">
+                    <div class="ios-pillar-card__icon" aria-hidden="true"><i class="fab fa-github"></i></div>
+                    <h3 class="ios-pillar-card__title">Student collaboration</h3>
+                    <p class="ios-pillar-card__text">We work together across batches and interests so members can learn, contribute, and lead club activities.</p>
+                </article>
+                <article class="ios-pillar-card">
+                    <div class="ios-pillar-card__icon" aria-hidden="true"><i class="fas fa-users"></i></div>
+                    <h3 class="ios-pillar-card__title">Community-minded</h3>
+                    <p class="ios-pillar-card__text">We are a <strong>non-profit</strong>, student-led club centered on service, support, and shared growth.</p>
+                </article>
+                <article class="ios-pillar-card">
+                    <div class="ios-pillar-card__icon" aria-hidden="true"><i class="fas fa-diagram-project"></i></div>
+                    <h3 class="ios-pillar-card__title">Service-oriented</h3>
+                    <p class="ios-pillar-card__text">A full pipeline: <strong>learn → research → share → serve</strong> with the wider Ayurveda community.</p>
+                </article>
+            </div>
+        </section>
+
+        <!--===== DOMAINS OF FOCUS =====-->
+        <section class="domains section" id="domains">
+            <div class="section-intro">
+                <h2 class="section-title">Domains of focus</h2>
+                <p class="section-intro__lead">We prioritize Ayurveda student learning and health-oriented outreach in areas that matter for our community.</p>
+            </div>
+            <div class="ios-domain-grid bd-grid">
+                <article class="ios-domain-card">
+                    <h3 class="ios-domain-card__title"><i class="fas fa-heart-pulse" aria-hidden="true"></i> Health awareness</h3>
+                    <ul class="ios-domain-card__list">
+                        <li>Student-led awareness programs</li>
+                        <li>Public health education</li>
+                        <li>Community engagement</li>
+                    </ul>
+                </article>
+                <article class="ios-domain-card">
+                    <h3 class="ios-domain-card__title"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Education</h3>
+                    <ul class="ios-domain-card__list">
+                        <li>Academic support for Ayurveda students</li>
+                        <li>Workshops, talks, and peer learning</li>
+                    </ul>
+                </article>
+                <article class="ios-domain-card">
+                    <h3 class="ios-domain-card__title"><i class="fas fa-landmark" aria-hidden="true"></i> Research and publication</h3>
+                    <ul class="ios-domain-card__list">
+                        <li>Student research support</li>
+                        <li>Publication and presentation culture</li>
+                    </ul>
+                </article>
+                <article class="ios-domain-card">
+                    <h3 class="ios-domain-card__title"><i class="fas fa-seedling" aria-hidden="true"></i> Student community</h3>
+                    <ul class="ios-domain-card__list">
+                        <li>Club activities and mentorship</li>
+                        <li>Events that strengthen belonging</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <!--===== OBJECTIVES =====-->
+        <section class="objectives section" id="objectives">
+            <div class="section-intro">
+                <h2 class="section-title">Our objectives</h2>
+                <p class="section-intro__lead">Core work we optimize for—and supportive programs that grow SEARCH culture.</p>
+            </div>
+            <div class="ios-objectives bd-grid">
+                <div class="ios-panel ios-panel--primary">
+                    <h3 class="ios-panel__heading">Primary — core focus</h3>
+                    <dl class="ios-def-list">
+                        <dt><i class="fas fa-book-open" aria-hidden="true"></i> Research</dt>
+                        <dd>Study Ayurveda-related topics, health issues, and student interests to create meaningful club output.</dd>
+                        <dt><i class="fas fa-hammer" aria-hidden="true"></i> Build</dt>
+                        <dd>Run student-led activities that strengthen learning, teamwork, and community participation.</dd>
+                    </dl>
+                </div>
+                <div class="ios-panel ios-panel--secondary">
+                    <h3 class="ios-panel__heading">Secondary — supportive</h3>
+                    <ul class="ios-check-list">
+                        <li><strong>Events</strong> — Seminars, workshops, and collaborative activities for student growth.</li>
+                        <li><strong>Awareness</strong> — Programs on health, Ayurveda, and student engagement.</li>
+                        <li><strong>Research</strong> — Supporting members with publication, presentation, and academic work.</li>
+                        <li><strong>Education</strong> — Resources for learning, mentorship, and peer support.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!--===== BENEFITS =====-->
+        <section class="benefits section" id="benefits">
+            <div class="section-intro">
+                <h2 class="section-title">Benefits</h2>
+                <p class="section-intro__lead">Why students show up—and what SEARCH gains when members learn together.</p>
+            </div>
+            <div class="ios-benefits bd-grid">
+                <div class="ios-panel ios-panel--benefit">
+                    <h3 class="ios-panel__heading">For students</h3>
+                    <ul class="ios-check-list ios-check-list--spaced">
+                        <li>Real-world, portfolio-building experience through research, events, and club responsibility.</li>
+                        <li>Leadership, teamwork, and communication skills through roles and activities.</li>
+                        <li>Mentorship and networking with faculty, alumni, and the broader Ayurveda community.</li>
+                        <li>Lower barriers for beginners through guided participation and peer support.</li>
+                    </ul>
+                </div>
+                <div class="ios-panel ios-panel--benefit">
+                    <h3 class="ios-panel__heading">For Nepal</h3>
+                    <ul class="ios-check-list ios-check-list--spaced">
+                        <li>Stronger student participation in health awareness and service.</li>
+                        <li>More research visibility and academic collaboration.
+                        </li>
+                        <li>A supportive club culture that connects students across batches.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!--===== PROJECTS SECTION =====-->
+        <section class="projects section" id="projects">
+            <div class="section-intro">
+                <h2 class="section-title">Research articles</h2>
+                <p class="section-intro__lead">Scholarly publications, literature reviews, and health research papers authored and co-authored by club members.</p>
+            </div>
+            <div class="projects__container bd-grid" id="projects-container">
+                <div style="grid-column: 1/-1; text-align: center; color: var(--second-color);">Loading articles...
+                </div>
+            </div>
+
+            <!-- View More/Less Projects Buttons -->
+            <div class="projects__more-wrapper" style="text-align:center; margin-top:2rem; display:none;"
+                id="projects-controls">
+                <button id="projects-more-btn" class="button" type="button">View More Articles</button>
+                <button id="projects-less-btn" class="button" type="button" style="display:none;">View Less
+                    Articles</button>
+            </div>
+
+            <!-- Modal template for JS to clone -->
+            <div class="project__modal-template" style="display:none">
+                <div class="project__modal-content">
+                    <button class="project__modal-close" aria-label="Close article preview">&times;</button>
+                    <img class="project__modal-img" src="" alt="Article preview">
+                    <h3 class="project__modal-title"></h3>
+                    <div class="project__modal-tech-icons"></div>
+                    <p class="project__modal-desc"></p>
+                    <div class="project__modal-links"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!--===== ACHIEVEMENTS SECTION =====-->
+        <section class="achievements section" id="events">
+            <div class="section-intro">
+                <h2 class="section-title">Events &amp; workshops</h2>
+                <p class="section-intro__lead">Hackathons, trainings, and community sessions—innovation and teamwork in the open.</p>
+            </div>
+            <div class="achievements__container bd-grid" id="events-container">
+                <div style="grid-column: 1/-1; text-align: center; color: var(--second-color);">Loading events...
+                </div>
+            </div>
+
+        </section>
+
+
+
+        <!--===== EXPERIENCE / TIMELINE SECTION =====-->
+        <section class="timeline section" id="team">
+            <div class="section-intro">
+                <h2 class="section-title">Team &amp; leadership</h2>
+                <p class="section-intro__lead">Students coordinating research, builds, events, and outreach.</p>
+            </div>
+            <div class="bd-grid" id="team-container" style="gap: 1.5rem;">
+                <div style="text-align: center; color: var(--second-color);">Loading team members...</div>
+            </div>
+
+        </section>
+
+
+        <!--===== CONTACT SECTION =====-->
+        <section class="contact section" id="contact">
+            <div class="section-intro">
+                <h2 class="section-title">Contact</h2>
+                <p class="section-intro__lead">Collaborate on a problem space, propose a workshop, or ask how to contribute.</p>
+            </div>
+            <div class="contact__container bd-grid">
+                <form id="contact-form" class="contact__form" autocomplete="off"
+                    action="https://formspree.io/f/mrbadqkp" method="POST">
+                    <div id="form-status" class="sr-only" aria-live="polite"></div>
+                    <input type="text" name="name" placeholder="Name" class="contact__input" required>
+                    <input type="email" name="email" placeholder="Email" class="contact__input" required>
+                    <textarea name="message" cols="0" rows="10" placeholder="Message" class="contact__input"
+                        required></textarea>
+                    <button type="submit" class="contact__button button" id="send-button">Send</button>
+                </form>
+                <div class="contact__links">
+                    <a href="mailto:search.students.club@example.com" class="button button--outline"><i
+                            class="fas fa-envelope"></i> Mail to SEARCH</a>
+                    <a href="mailto:search.students.club@example.com" class="contact__icon"
+                        aria-label="Email" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+                    <a href="#about" class="contact__icon"
+                        aria-label="About SEARCH" target="_blank" rel="noopener noreferrer"><i class="fas fa-leaf"></i></a>
+                    <a href="#events" class="contact__icon" aria-label="Events" target="_blank"
+                        rel="noopener noreferrer"><i class="fas fa-calendar-days"></i></a>
+                    <a href="#team" class="contact__icon" aria-label="Team" target="_blank"
+                        rel="noopener noreferrer"><i class="fas fa-users"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chat Widget (Gemini-in-Colab–inspired panel; self-contained dark theme) -->
+    <div id="chat-widget" class="chat-widget">
+        <div id="chat-window" class="chat-window">
+            <!-- Resize Handles -->
+            <div class="resizer resizer-t"></div>
+            <div class="resizer resizer-l"></div>
+            <div class="resizer resizer-tl"></div>
+
+            <div class="chat-header">
+                <span class="chat-header__title">SEARCH assistant</span>
+                <button type="button" id="chat-close-btn" class="chat-close-btn" aria-label="Close chat"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+                <div class="chat-turn chat-turn--bot">
+                    <div class="chat-turn__avatar chat-turn__avatar--bot" aria-hidden="true">
+                        <svg class="chat-sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="currentColor" />
+                        </svg>
+                    </div>
+                    <div class="chat-turn__body">
+                        <div class="chat-turn__content">
+                            <p>Hello! Ask about SEARCH—our mission, Ayurveda focus, events, or how to join the club.</p>
+                        </div>
+                        <div class="chat-turn__feedback">
+                            <button type="button" class="chat-feedback-btn" title="Good response" aria-label="Thumbs up"><i class="far fa-thumbs-up"></i></button>
+                            <button type="button" class="chat-feedback-btn" title="Poor response" aria-label="Thumbs down"><i class="far fa-thumbs-down"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-footer">
+                <div class="chat-suggestions" id="chat-suggestions" role="group" aria-label="Suggested prompts">
+                    <button type="button" class="chat-suggestion-chip" data-suggestion="What is SEARCH Students' Club?"><i class="fas fa-reply" aria-hidden="true"></i><span>What is SEARCH Students' Club?</span></button>
+                    <button type="button" class="chat-suggestion-chip" data-suggestion="What does SEARCH focus on?"><i class="fas fa-reply" aria-hidden="true"></i><span>What does SEARCH focus on?</span></button>
+                    <button type="button" class="chat-suggestion-chip" data-suggestion="How can I contribute?"><i class="fas fa-reply" aria-hidden="true"></i><span>How can I contribute?</span></button>
+                </div>
+                <div class="chat-composer">
+                    <div class="chat-composer__leading">
+                        <button type="button" class="chat-composer__icon-btn" disabled aria-label="Attach (not available)"><i class="fas fa-plus"></i></button>
+                        <button type="button" class="chat-composer__icon-btn" disabled aria-label="Options (not available)"><i class="fas fa-sliders-h"></i></button>
+                    </div>
+                    <input type="text" id="chat-input" class="chat-composer__input" placeholder="What can I help you with?" autocomplete="off" aria-label="Message">
+                    <div class="chat-composer__trailing">
+                        <span class="chat-composer__model" title="Assistant">SEARCH assistant</span>
+                        <button type="button" id="chat-send-btn" class="chat-composer__send" disabled aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+                <p class="chat-disclaimer">The assistant may make mistakes—double-check important information. <a href="#about">Learn more</a> about SEARCH.</p>
+            </div>
+        </div>
+        <div class="chat-toggle-wrap">
+            <span id="chat-toggle-hint" class="chat-toggle-hint" role="tooltip">Try the bot</span>
+            <button type="button" id="chat-toggle-btn" class="chat-toggle-btn" aria-label="Open chat"
+                aria-describedby="chat-toggle-hint">
+                <div class="sparkle-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="currentColor" />
+                    </svg>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!--===== FOOTER =====-->
+    <footer class="footer">
+        <div class="footer__container">
+            <p class="footer__title">SEARCH Students' Club</p>
+            <p class="footer__tagline">Ayurveda Campus, Kirtipur · Research-driven · Student-led · For the community</p>
+            <p class="footer__contact"><a href="mailto:search.students.club@example.com"
+                    aria-label="Mail to SEARCH Students' Club" class="footer__email">Mail to SEARCH</a></p>
+            <div class="footer__social">
+                <a href="#contact" class="footer__icon" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="#about" class="footer__icon" aria-label="About SEARCH"><i class="fas fa-leaf"></i></a>
+                <a href="#events" class="footer__icon" aria-label="Events"><i class="fas fa-calendar-days"></i></a>
+                <a href="#team" class="footer__icon" aria-label="Team"><i class="fas fa-users"></i></a>
+            </div>
+            <button class="footer__top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+            <p class="footer__copy">&copy; <span id="footer-year"></span> SEARCH Students' Club. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!--===== SCROLL REVEAL =====-->
+    <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+    <!-- Supabase UMD must run before ES modules that import supabase-config (defer + module order is not reliable). -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/sections.js"></script>
+    <script defer src="js/chat.js"></script>
+</body>
+
+</html>
