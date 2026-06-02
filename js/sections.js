@@ -74,7 +74,6 @@ export async function initProjects() {
                 <img src="${p.image_url || 'assets/img/themeimage.jpeg'}" alt="${p.title}" class="project__img" loading="lazy">
                 <div class="project__info">
                     <h3 class="project__title">${p.title}</h3>
-                    <p class="project__desc">${p.description}</p>
                     <div class="project__tech-icons">${iconsHtml}</div>
                     ${p.github_url ? `<a href="${p.github_url}" class="project__link" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Article PDF</a>` : ''}
                     <button class="project__details-btn" type="button">Read Summary</button>
