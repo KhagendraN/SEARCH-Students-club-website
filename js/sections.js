@@ -5,6 +5,7 @@
 
 import { fetchProjects } from './projects-api.js';
 import { fetchEvents } from './events-api.js';
+import { fetchGalleryItems } from './gallery-api.js';
 import { fetchTeamMembers } from './team-api.js';
 import { fetchProfile } from './profile-api.js';
 import { getTechIconHTML } from './utils.js';
@@ -333,10 +334,86 @@ export async function initEvents() {
 }
 
 /**
+ * Initialize Gallery section (mixed photos + videos)
+ */
+export async function initGallery() {
+    const container = document.getElementById('gallery-container');
+    if (!container) return;
+
+    try {
+        const items = await fetchGalleryItems();
+        container.innerHTML = '';
+
+        if (!items.length) {
+            container.innerHTML = '<div style="grid-column: 1/-1; text-align: center;">No gallery items found.</div>';
+            return;
+        }
+
+        items.forEach(item => {
+            const card = document.createElement('article');
+            card.className = 'gallery__card';
+
+            const mediaWrap = document.createElement('div');
+            mediaWrap.className = 'gallery__media-wrap';
+
+            const title = typeof item.title === 'string' ? item.title : 'Gallery item';
+            const mediaUrl = typeof item.media_url === 'string' ? item.media_url.trim() : '';
+            const thumbUrl = typeof item.thumbnail_url === 'string' ? item.thumbnail_url.trim() : '';
+
+            if (item.media_type === 'video') {
+                const video = document.createElement('video');
+                video.className = 'gallery__media';
+                video.controls = true;
+                video.preload = 'metadata';
+                video.playsInline = true;
+                if (thumbUrl) video.poster = thumbUrl;
+                if (mediaUrl) video.src = mediaUrl;
+                video.setAttribute('aria-label', title);
+                mediaWrap.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.className = 'gallery__media';
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                img.alt = title;
+                img.src = mediaUrl;
+                mediaWrap.appendChild(img);
+            }
+
+            const body = document.createElement('div');
+            body.className = 'gallery__body';
+
+            const heading = document.createElement('h3');
+            heading.className = 'gallery__title';
+            heading.textContent = title;
+
+            body.appendChild(heading);
+
+            if (item.caption) {
+                const caption = document.createElement('p');
+                caption.className = 'gallery__caption';
+                caption.textContent = item.caption;
+                body.appendChild(caption);
+            }
+
+            card.appendChild(mediaWrap);
+            card.appendChild(body);
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.error('Error loading gallery:', err);
+        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: red;">Error loading gallery.</div>';
+    }
+}
+
+/**
  * Initialize Experience/Timeline Section
  */
 export async function initTeam() {
     const container = document.getElementById('team-container');
+    const controls = document.getElementById('team-controls');
+    const moreBtn = document.getElementById('team-more-btn');
+    const lessBtn = document.getElementById('team-less-btn');
     if (!container) return;
 
     try {
@@ -348,9 +425,13 @@ export async function initTeam() {
             return;
         }
 
-        team.forEach(exp => {
+        team.forEach((exp, index) => {
             const item = document.createElement('div');
             item.className = 'team__card';
+            if (index >= 3) {
+                item.classList.add('team--hidden');
+                item.style.display = 'none';
+            }
             const fullNameText = typeof exp.full_name === 'string' ? exp.full_name.trim() : '';
             const roleTitleText = typeof exp.role === 'string' ? exp.role.trim() : '';
             const displayName = fullNameText || roleTitleText;
@@ -400,6 +481,30 @@ export async function initTeam() {
 
             container.appendChild(item);
         });
+
+        if (team.length > 3 && controls && moreBtn && lessBtn) {
+            controls.style.display = 'block';
+
+            moreBtn.addEventListener('click', () => {
+                container.querySelectorAll('.team--hidden').forEach(el => {
+                    el.style.display = 'block';
+                    el.style.animation = 'fadeIn 0.5s ease';
+                });
+                moreBtn.style.display = 'none';
+                lessBtn.style.display = 'inline-block';
+            });
+
+            lessBtn.addEventListener('click', () => {
+                container.querySelectorAll('.team--hidden').forEach(el => {
+                    el.style.display = 'none';
+                });
+                moreBtn.style.display = 'inline-block';
+                lessBtn.style.display = 'none';
+                document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' });
+            });
+        } else if (controls) {
+            controls.style.display = 'none';
+        }
 
     } catch (err) {
         console.error('Error loading experiences:', err);
@@ -484,6 +589,7 @@ export function initAllSections() {
         await Promise.all([
             initProjects(),
             initEvents(),
+            initGallery(),
             initTeam(),
             initProfile()
         ]);

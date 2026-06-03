@@ -222,7 +222,8 @@
 #save-status,
 #project-save-status,
 #team_member-save-status,
-#event-save-status {
+#event-save-status,
+#gallery-save-status {
     font-size: 0.8rem;
     color: var(--admin-muted);
 }

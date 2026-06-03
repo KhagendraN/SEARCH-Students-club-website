@@ -10,10 +10,11 @@ import { loadPosts, setupBlogEditorListeners, createNewPost, updatePreview } fro
 import { loadProjects, setupProjectEditorListeners, createNewProject } from './projects-admin.js';
 import { loadTeamMembers, setupTeamMemberEditorListeners, createNewTeamMember } from './team-admin.js';
 import { loadEvents, setupEventEditorListeners, createNewEvent } from './events-admin.js';
+import { loadGalleryItems, setupGalleryEditorListeners, createNewGalleryItem } from './gallery-admin.js';
 import { loadProfile, setupProfileEditorListeners, uploadFile } from './profile-admin.js';
 
 // State
-let activeTab = 'posts'; // 'posts', 'projects', 'experiences', 'achievements', 'profile'
+let activeTab = 'posts'; // 'posts', 'projects', 'experiences', 'achievements', 'gallery', 'profile'
 
 /**
  * Load data based on active tab
@@ -27,6 +28,8 @@ function loadData() {
         loadTeamMembers();
     } else if (activeTab === 'achievements') {
         loadEvents();
+    } else if (activeTab === 'gallery') {
+        loadGalleryItems();
     } else if (activeTab === 'profile') {
         loadProfile();
     }
@@ -40,23 +43,26 @@ async function loadStats() {
     const { count: projectsCount } = await supabase.from('projects').select('*', { count: 'exact', head: true });
     const { count: experiencesCount } = await supabase.from('team_members').select('*', { count: 'exact', head: true });
     const { count: achievementsCount } = await supabase.from('events').select('*', { count: 'exact', head: true });
+    const { count: galleryCount } = await supabase.from('gallery_items').select('*', { count: 'exact', head: true });
 
     const statPosts = document.getElementById('stat-posts');
     const statProjects = document.getElementById('stat-projects');
     const statExperiences = document.getElementById('stat-experiences');
     const statAchievements = document.getElementById('stat-achievements');
+    const statGallery = document.getElementById('stat-gallery');
 
     if (statPosts) statPosts.textContent = postsCount || 0;
     if (statProjects) statProjects.textContent = projectsCount || 0;
     if (statExperiences) statExperiences.textContent = experiencesCount || 0;
     if (statAchievements) statAchievements.textContent = achievementsCount || 0;
+    if (statGallery) statGallery.textContent = galleryCount || 0;
 }
 
 /**
  * Setup tab switching event listeners
  */
 function setupTabListeners() {
-    const tabs = ['posts', 'projects', 'experiences', 'achievements', 'profile'];
+    const tabs = ['posts', 'projects', 'experiences', 'achievements', 'gallery', 'profile'];
 
     tabs.forEach(tab => {
         const tabBtn = document.getElementById(`tab-${tab}`);
@@ -84,6 +90,8 @@ function setupNewButtonListener() {
                 createNewTeamMember();
             } else if (activeTab === 'achievements') {
                 createNewEvent();
+            } else if (activeTab === 'gallery') {
+                createNewGalleryItem();
             }
         });
     }
@@ -334,6 +342,7 @@ function setupAllEventListeners() {
     setupProjectEditorListeners();
     setupTeamMemberEditorListeners();
     setupEventEditorListeners();
+    setupGalleryEditorListeners();
     setupProfileEditorListeners();
     setupImageUploadListeners();
     setupSlugGenerator();

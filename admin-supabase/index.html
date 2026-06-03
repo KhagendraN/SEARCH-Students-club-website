@@ -72,14 +72,19 @@
                         <h3>Events</h3>
                         <p id="stat-achievements">-</p>
                     </div>
+                    <div class="stat-card">
+                        <h3>Gallary</h3>
+                        <p id="stat-gallery">-</p>
+                    </div>
                 </div>
 
                 <div class="dashboard-controls">
                     <div class="tab-controls">
                         <button id="tab-posts" class="tab-btn active">Blog Posts</button>
-                        <button id="tab-projects" class="tab-btn">Research Articles</button>
+                        <button id="tab-projects" class="tab-btn">NewsLetter</button>
                         <button id="tab-experiences" class="tab-btn">Team</button>
                         <button id="tab-achievements" class="tab-btn">Events</button>
+                        <button id="tab-gallery" class="tab-btn">Gallary</button>
                         <button id="tab-profile" class="tab-btn">Profile</button>
                     </div>
                     <div class="action-controls">
@@ -184,6 +189,12 @@
                                 <span id="profile-save-status" style="margin-left: 1rem;"></span>
                             </div>
                         </form>
+                    </div>
+                </div>
+
+                <div id="gallery-view" class="hidden">
+                    <div class="posts-list" id="gallery-list">
+                        <div class="loading">Loading gallary items...</div>
                     </div>
                 </div>
             </main>
@@ -485,6 +496,80 @@
                         <label>
                             <input type="checkbox" id="event-pinned">
                             Pinned (Show on main page)
+                        </label>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <!-- Gallery Editor Screen -->
+        <div id="gallery-editor-screen" class="admin-screen hidden">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button id="gallery-back-btn" class="button button--outline"><i class="fas fa-arrow-left"></i>
+                        Back</button>
+                    <h1 id="gallery-editor-title">New Gallery Item</h1>
+                </div>
+                <div class="header-actions">
+                    <span id="gallery-save-status"></span>
+                    <button id="gallery-save-btn" class="button">Save</button>
+                </div>
+            </header>
+
+            <main class="admin-main editor-layout">
+                <form id="gallery-form" class="editor-form">
+                    <div class="form-group">
+                        <label for="gallery-title">Title</label>
+                        <input type="text" id="gallery-title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gallery-caption">Caption</label>
+                        <textarea id="gallery-caption" rows="3" placeholder="Optional context for this media"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gallery-media-type">Media Type</label>
+                            <select id="gallery-media-type" required>
+                                <option value="image">Image</option>
+                                <option value="video">Video</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="gallery-display-order">Display Order</label>
+                            <input type="number" id="gallery-display-order" min="0" value="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gallery-media-url">Media URL</label>
+                        <p class="form-hint">Image limit: 500 KB, video limit: 150 MB.</p>
+                        <div class="image-input-group">
+                            <input type="url" id="gallery-media-url" placeholder="https://..." required>
+                            <input type="file" id="gallery-media-upload" accept="image/*,video/*" style="display: none;">
+                            <button type="button" id="gallery-media-upload-btn" class="button button--outline">Upload</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gallery-thumbnail-url">Thumbnail URL (optional, recommended for videos)</label>
+                        <div class="image-input-group">
+                            <input type="url" id="gallery-thumbnail-url" placeholder="https://...">
+                            <input type="file" id="gallery-thumbnail-upload" accept="image/*" style="display: none;">
+                            <button type="button" id="gallery-thumbnail-upload-btn" class="button button--outline">Upload</button>
+                        </div>
+                    </div>
+
+                    <div id="gallery-media-preview" style="margin: 0.25rem 0 0.9rem;"></div>
+
+                    <input type="hidden" id="gallery-file-size">
+                    <input type="hidden" id="gallery-mime-type">
+
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="gallery-pinned">
+                            Pin this item
                         </label>
                     </div>
                 </form>

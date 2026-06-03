@@ -195,7 +195,7 @@ export async function saveProject() {
  * Delete project
  */
 export async function deleteProject(id) {
-    if (!confirmDialog('Are you sure you want to delete this research article?')) return;
+    if (!confirmDialog('Are you sure you want to delete this newsletter?')) return;
 
     const { error } = await supabase
         .from('projects')
