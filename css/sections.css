@@ -909,6 +909,19 @@
   text-align: left;
 }
 
+.team__group-title {
+  font-family: var(--heading-font);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--first-color);
+  text-align: center;
+  margin: 2.5rem 0 1.25rem;
+}
+
+.team__group-title:first-of-type {
+  margin-top: 0;
+}
+
 /*===== TIMELINE/EXPERIENCE SECTION =====*/
 .timeline__container {
   position: relative;

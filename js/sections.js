@@ -439,108 +439,116 @@ export async function initGallery() {
 }
 
 /**
- * Initialize Experience/Timeline Section
+ * Initialize Team / Leadership Section
  */
 export async function initTeam() {
-    const container = document.getElementById('team-container');
-    const controls = document.getElementById('team-controls');
-    const moreBtn = document.getElementById('team-more-btn');
-    const lessBtn = document.getElementById('team-less-btn');
-    if (!container) return;
-
     try {
         const team = await fetchTeamMembers();
-        container.innerHTML = '';
 
-        if (team.length === 0) {
-            container.innerHTML = '<div style="text-align: center;">No team members found.</div>';
-            return;
+        renderTeamGroup('team-executive-container', 'team-executive-controls', 'team-executive-more-btn', 'team-executive-less-btn',
+            team.filter(m => m.member_group === 'executive'));
+        renderTeamGroup('team-advisory-container', 'team-advisory-controls', 'team-advisory-more-btn', 'team-advisory-less-btn',
+            team.filter(m => m.member_group === 'advisory'));
+    } catch (err) {
+        console.error('Error loading team:', err);
+    }
+}
+
+function renderTeamGroup(containerId, controlsId, moreBtnId, lessBtnId, members) {
+    const container = document.getElementById(containerId);
+    const controls = document.getElementById(controlsId);
+    const moreBtn = document.getElementById(moreBtnId);
+    const lessBtn = document.getElementById(lessBtnId);
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    if (members.length === 0) {
+        container.innerHTML = '<div style="text-align: center; color: var(--text-muted);">No members in this group.</div>';
+        if (controls) controls.style.display = 'none';
+        return;
+    }
+
+    members.forEach((exp, index) => {
+        const item = document.createElement('div');
+        item.className = 'team__card';
+        if (index >= 3) {
+            item.classList.add('team--hidden');
+            item.style.display = 'none';
         }
 
-        team.forEach((exp, index) => {
-            const item = document.createElement('div');
-            item.className = 'team__card';
-            if (index >= 3) {
-                item.classList.add('team--hidden');
-                item.style.display = 'none';
-            }
-            const fullNameText = typeof exp.full_name === 'string' ? exp.full_name.trim() : '';
-            const roleTitleText = typeof exp.role === 'string' ? exp.role.trim() : '';
-            const displayName = fullNameText || roleTitleText;
-            const subtitleRole = fullNameText && roleTitleText ? roleTitleText : '';
+        const fullNameText = typeof exp.full_name === 'string' ? exp.full_name.trim() : '';
+        const roleTitleText = typeof exp.role === 'string' ? exp.role.trim() : '';
+        const displayName = fullNameText || roleTitleText;
+        const subtitleRole = fullNameText && roleTitleText ? roleTitleText : '';
 
-            if (exp.image_url) {
-                const wrap = document.createElement('div');
-                wrap.className = 'team__photo-wrap';
-                const img = document.createElement('img');
-                img.className = 'team__photo';
-                img.src = exp.image_url;
-                img.alt = displayName ? `${displayName} photo` : 'Team member';
-                img.loading = 'lazy';
-                img.decoding = 'async';
-                wrap.appendChild(img);
-                item.appendChild(wrap);
-            }
+        if (exp.image_url) {
+            const wrap = document.createElement('div');
+            wrap.className = 'team__photo-wrap';
+            const img = document.createElement('img');
+            img.className = 'team__photo';
+            img.src = exp.image_url;
+            img.alt = displayName ? `${displayName} photo` : 'Team member';
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            wrap.appendChild(img);
+            item.appendChild(wrap);
+        }
 
-            const header = document.createElement('div');
-            header.className = 'team__header';
-            if (displayName) {
-                const h3 = document.createElement('h3');
-                h3.className = 'team__name';
-                h3.textContent = displayName;
-                header.appendChild(h3);
-            }
-            if (subtitleRole) {
-                const sub = document.createElement('div');
-                sub.className = 'team__title-role';
-                sub.textContent = subtitleRole;
-                header.appendChild(sub);
-            }
-            const dateEl = document.createElement('div');
-            dateEl.className = 'team__date';
-            dateEl.textContent = exp.tenure || '';
-            header.appendChild(dateEl);
+        const header = document.createElement('div');
+        header.className = 'team__header';
+        if (displayName) {
+            const h3 = document.createElement('h3');
+            h3.className = 'team__name';
+            h3.textContent = displayName;
+            header.appendChild(h3);
+        }
+        if (subtitleRole) {
+            const sub = document.createElement('div');
+            sub.className = 'team__title-role';
+            sub.textContent = subtitleRole;
+            header.appendChild(sub);
+        }
+        const dateEl = document.createElement('div');
+        dateEl.className = 'team__date';
+        dateEl.textContent = exp.tenure || '';
+        header.appendChild(dateEl);
 
-            const content = document.createElement('div');
-            content.className = 'team__content';
-            const p = document.createElement('p');
-            p.className = 'team__desc';
-            p.textContent = exp.description || '';
+        const content = document.createElement('div');
+        content.className = 'team__content';
+        const p = document.createElement('p');
+        p.className = 'team__desc';
+        p.textContent = exp.description || '';
 
-            content.appendChild(p);
-            item.appendChild(header);
-            item.appendChild(content);
+        content.appendChild(p);
+        item.appendChild(header);
+        item.appendChild(content);
 
-            container.appendChild(item);
+        container.appendChild(item);
+    });
+
+    if (members.length > 3 && controls && moreBtn && lessBtn) {
+        controls.style.display = 'block';
+
+        moreBtn.addEventListener('click', () => {
+            container.querySelectorAll('.team--hidden').forEach(el => {
+                el.style.display = 'block';
+                el.style.animation = 'fadeIn 0.5s ease';
+            });
+            moreBtn.style.display = 'none';
+            lessBtn.style.display = 'inline-block';
         });
 
-        if (team.length > 3 && controls && moreBtn && lessBtn) {
-            controls.style.display = 'block';
-
-            moreBtn.addEventListener('click', () => {
-                container.querySelectorAll('.team--hidden').forEach(el => {
-                    el.style.display = 'block';
-                    el.style.animation = 'fadeIn 0.5s ease';
-                });
-                moreBtn.style.display = 'none';
-                lessBtn.style.display = 'inline-block';
+        lessBtn.addEventListener('click', () => {
+            container.querySelectorAll('.team--hidden').forEach(el => {
+                el.style.display = 'none';
             });
-
-            lessBtn.addEventListener('click', () => {
-                container.querySelectorAll('.team--hidden').forEach(el => {
-                    el.style.display = 'none';
-                });
-                moreBtn.style.display = 'inline-block';
-                lessBtn.style.display = 'none';
-                document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' });
-            });
-        } else if (controls) {
-            controls.style.display = 'none';
-        }
-
-    } catch (err) {
-        console.error('Error loading experiences:', err);
-        container.innerHTML = '<div style="text-align: center; color: red;">Error loading team.</div>';
+            moreBtn.style.display = 'inline-block';
+            lessBtn.style.display = 'none';
+            document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' });
+        });
+    } else if (controls) {
+        controls.style.display = 'none';
     }
 }
 

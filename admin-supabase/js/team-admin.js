@@ -92,8 +92,8 @@ export async function loadTeamMembers() {
                 ${thumb}
                 <h3>${teamMemberListHeading(e)}</h3>
                 <div class="post-meta">
-                    <span class="status-badge ${e.member_group === 'education' ? 'status-published' : 'status-draft'}">
-                        ${e.member_group === 'education' ? 'Education' : 'TeamMember'}
+                    <span class="status-badge ${e.member_group === 'executive' ? 'status-published' : 'status-draft'}">
+                        ${e.member_group === 'executive' ? 'Executive' : 'Advisory'}
                     </span>
                     <span>${escapeHtml(e.tenure)}</span>
                     <span>Order: ${e.display_order}</span>
@@ -172,7 +172,7 @@ function syncTeamPhotoPreview(url) {
 
 export function fillTeamMemberEditor(e) {
     const fields = [
-        { id: 'team_member-member_group', value: e.member_group || 'education' },
+        { id: 'team_member-member_group', value: e.member_group || 'executive' },
         { id: 'team_member-full-name', value: e.full_name || '' },
         { id: 'team_member-role-title', value: e.role || '' },
         { id: 'team_member-date', value: e.tenure || '' },
