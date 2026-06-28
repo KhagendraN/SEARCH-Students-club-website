@@ -127,7 +127,7 @@ if (document.readyState === 'loading') {
 /*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
 /*==================== SCROLL SECTIONS ACTIVE LINK (IntersectionObserver) ====================*/
 const sections = document.querySelectorAll('section[id]');
-const DROPDOWN_SECTION_IDS = ['what-we-do', 'domains', 'objectives', 'benefits', 'gallery']
+const DROPDOWN_SECTION_IDS = ['what-we-do', 'domains', 'objectives', 'benefits', 'gallery', 'resources']
 
 const activeLinkObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {

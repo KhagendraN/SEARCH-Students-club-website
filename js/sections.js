@@ -8,6 +8,7 @@ import { fetchEvents } from './events-api.js';
 import { fetchGalleryItems } from './gallery-api.js';
 import { fetchTeamMembers } from './team-api.js';
 import { fetchProfile } from './profile-api.js';
+import { fetchResources } from './resources-api.js';
 import { getTechIconHTML } from './utils.js';
 
 /**
@@ -338,6 +339,9 @@ export async function initEvents() {
  */
 export async function initGallery() {
     const container = document.getElementById('gallery-container');
+    const controls = document.getElementById('gallery-controls');
+    const moreBtn = document.getElementById('gallery-more-btn');
+    const lessBtn = document.getElementById('gallery-less-btn');
     if (!container) return;
 
     try {
@@ -349,9 +353,13 @@ export async function initGallery() {
             return;
         }
 
-        items.forEach(item => {
+        items.forEach((item, index) => {
             const card = document.createElement('article');
             card.className = 'gallery__card';
+            if (index >= 3) {
+                card.classList.add('gallery--hidden');
+                card.style.display = 'none';
+            }
 
             const mediaWrap = document.createElement('div');
             mediaWrap.className = 'gallery__media-wrap';
@@ -400,6 +408,30 @@ export async function initGallery() {
             card.appendChild(body);
             container.appendChild(card);
         });
+
+        if (items.length > 3 && controls && moreBtn && lessBtn) {
+            controls.style.display = 'block';
+
+            moreBtn.addEventListener('click', () => {
+                container.querySelectorAll('.gallery--hidden').forEach(el => {
+                    el.style.display = 'block';
+                    el.style.animation = 'fadeIn 0.5s ease';
+                });
+                moreBtn.style.display = 'none';
+                lessBtn.style.display = 'inline-block';
+            });
+
+            lessBtn.addEventListener('click', () => {
+                container.querySelectorAll('.gallery--hidden').forEach(el => {
+                    el.style.display = 'none';
+                });
+                moreBtn.style.display = 'inline-block';
+                lessBtn.style.display = 'none';
+                document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' });
+            });
+        } else if (controls) {
+            controls.style.display = 'none';
+        }
     } catch (err) {
         console.error('Error loading gallery:', err);
         container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: red;">Error loading gallery.</div>';
@@ -576,6 +608,52 @@ export function initScrollToTop() {
 }
 
 /**
+ * Initialize Resources Section
+ */
+export async function initResources() {
+    const container = document.getElementById('resources-container');
+    if (!container) return;
+
+    try {
+        const items = await fetchResources();
+        container.innerHTML = '';
+
+        if (!items.length) {
+            container.innerHTML = '<div style="grid-column: 1/-1; text-align: center;">No resources found.</div>';
+            return;
+        }
+
+        items.forEach(item => {
+            const card = document.createElement('a');
+            card.className = 'resource__card';
+            card.href = item.drive_url || '#';
+            card.target = '_blank';
+            card.rel = 'noopener noreferrer';
+
+            const title = document.createElement('h3');
+            title.className = 'resource__title';
+            title.textContent = item.title || 'Resource';
+
+            const desc = document.createElement('p');
+            desc.className = 'resource__desc';
+            desc.textContent = item.description || '';
+
+            const driveIcon = document.createElement('span');
+            driveIcon.className = 'resource__drive-icon';
+            driveIcon.innerHTML = '<i class="fas fa-external-link-alt"></i>';
+
+            card.appendChild(title);
+            if (item.description) card.appendChild(desc);
+            card.appendChild(driveIcon);
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.error('Error loading resources:', err);
+        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: red;">Error loading resources.</div>';
+    }
+}
+
+/**
  * Initialize All Sections
  */
 export function initAllSections() {
@@ -591,7 +669,8 @@ export function initAllSections() {
             initEvents(),
             initGallery(),
             initTeam(),
-            initProfile()
+            initProfile(),
+            initResources()
         ]);
     });
 }

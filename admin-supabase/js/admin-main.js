@@ -11,10 +11,11 @@ import { loadProjects, setupProjectEditorListeners, createNewProject } from './p
 import { loadTeamMembers, setupTeamMemberEditorListeners, createNewTeamMember } from './team-admin.js';
 import { loadEvents, setupEventEditorListeners, createNewEvent } from './events-admin.js';
 import { loadGalleryItems, setupGalleryEditorListeners, createNewGalleryItem } from './gallery-admin.js';
+import { loadResources, setupResourceEditorListeners, createNewResource } from './resources-admin.js';
 import { loadProfile, setupProfileEditorListeners, uploadFile } from './profile-admin.js';
 
 // State
-let activeTab = 'posts'; // 'posts', 'projects', 'experiences', 'achievements', 'gallery', 'profile'
+let activeTab = 'posts'; // 'posts', 'projects', 'experiences', 'achievements', 'gallery', 'resources', 'profile'
 
 /**
  * Load data based on active tab
@@ -30,6 +31,8 @@ function loadData() {
         loadEvents();
     } else if (activeTab === 'gallery') {
         loadGalleryItems();
+    } else if (activeTab === 'resources') {
+        loadResources();
     } else if (activeTab === 'profile') {
         loadProfile();
     }
@@ -44,25 +47,28 @@ async function loadStats() {
     const { count: experiencesCount } = await supabase.from('team_members').select('*', { count: 'exact', head: true });
     const { count: achievementsCount } = await supabase.from('events').select('*', { count: 'exact', head: true });
     const { count: galleryCount } = await supabase.from('gallery_items').select('*', { count: 'exact', head: true });
+    const { count: resourcesCount } = await supabase.from('resources').select('*', { count: 'exact', head: true });
 
     const statPosts = document.getElementById('stat-posts');
     const statProjects = document.getElementById('stat-projects');
     const statExperiences = document.getElementById('stat-experiences');
     const statAchievements = document.getElementById('stat-achievements');
     const statGallery = document.getElementById('stat-gallery');
+    const statResources = document.getElementById('stat-resources');
 
     if (statPosts) statPosts.textContent = postsCount || 0;
     if (statProjects) statProjects.textContent = projectsCount || 0;
     if (statExperiences) statExperiences.textContent = experiencesCount || 0;
     if (statAchievements) statAchievements.textContent = achievementsCount || 0;
     if (statGallery) statGallery.textContent = galleryCount || 0;
+    if (statResources) statResources.textContent = resourcesCount || 0;
 }
 
 /**
  * Setup tab switching event listeners
  */
 function setupTabListeners() {
-    const tabs = ['posts', 'projects', 'experiences', 'achievements', 'gallery', 'profile'];
+    const tabs = ['posts', 'projects', 'experiences', 'achievements', 'gallery', 'resources', 'profile'];
 
     tabs.forEach(tab => {
         const tabBtn = document.getElementById(`tab-${tab}`);
@@ -92,6 +98,8 @@ function setupNewButtonListener() {
                 createNewEvent();
             } else if (activeTab === 'gallery') {
                 createNewGalleryItem();
+            } else if (activeTab === 'resources') {
+                createNewResource();
             }
         });
     }
@@ -160,22 +168,22 @@ function setupImageUploadListeners() {
         });
     }
 
-    // Achievement image upload
-    const achievementUploadBtn = document.getElementById('achievement-upload-btn');
-    const achievementFileInput = document.getElementById('achievement-image-upload');
-    const achievementUrlInput = document.getElementById('achievement-image');
+    // Event image upload
+    const eventUploadBtn = document.getElementById('event-upload-btn');
+    const eventFileInput = document.getElementById('event-image-upload');
+    const eventUrlInput = document.getElementById('event-image');
 
-    if (achievementUploadBtn && achievementFileInput && achievementUrlInput) {
-        achievementUploadBtn.addEventListener('click', () => achievementFileInput.click());
-        achievementFileInput.addEventListener('change', async (e) => {
+    if (eventUploadBtn && eventFileInput && eventUrlInput) {
+        eventUploadBtn.addEventListener('click', () => eventFileInput.click());
+        eventFileInput.addEventListener('change', async (e) => {
             if (e.target.files.length > 0) {
-                achievementUploadBtn.textContent = 'Uploading...';
-                achievementUploadBtn.disabled = true;
+                eventUploadBtn.textContent = 'Uploading...';
+                eventUploadBtn.disabled = true;
                 const url = await uploadFile(e.target.files[0]);
-                if (url) achievementUrlInput.value = url;
-                achievementUploadBtn.textContent = 'Upload';
-                achievementUploadBtn.disabled = false;
-                achievementFileInput.value = '';
+                if (url) eventUrlInput.value = url;
+                eventUploadBtn.textContent = 'Upload';
+                eventUploadBtn.disabled = false;
+                eventFileInput.value = '';
             }
         });
     }
@@ -343,6 +351,7 @@ function setupAllEventListeners() {
     setupTeamMemberEditorListeners();
     setupEventEditorListeners();
     setupGalleryEditorListeners();
+    setupResourceEditorListeners();
     setupProfileEditorListeners();
     setupImageUploadListeners();
     setupSlugGenerator();

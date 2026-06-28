@@ -223,6 +223,20 @@
   opacity: 0.9;
 }
 
+.dark-mode .resource__card {
+  background: #132219 !important;
+  border-color: rgba(243, 186, 101, 0.12) !important;
+}
+
+.dark-mode .resource__title {
+  color: #f3ba65 !important;
+}
+
+.dark-mode .resource__desc {
+  color: #eae3d2 !important;
+  opacity: 0.9;
+}
+
 .dark-mode .ios-pillar-card,
 .dark-mode .ios-domain-card,
 .dark-mode .ios-panel {

@@ -73,8 +73,12 @@
                         <p id="stat-achievements">-</p>
                     </div>
                     <div class="stat-card">
-                        <h3>Gallary</h3>
+                        <h3>Gallery</h3>
                         <p id="stat-gallery">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Resources</h3>
+                        <p id="stat-resources">-</p>
                     </div>
                 </div>
 
@@ -84,7 +88,8 @@
                         <button id="tab-projects" class="tab-btn">NewsLetter</button>
                         <button id="tab-experiences" class="tab-btn">Team</button>
                         <button id="tab-achievements" class="tab-btn">Events</button>
-                        <button id="tab-gallery" class="tab-btn">Gallary</button>
+                        <button id="tab-gallery" class="tab-btn">Gallery</button>
+                        <button id="tab-resources" class="tab-btn">Resources</button>
                         <button id="tab-profile" class="tab-btn">Profile</button>
                     </div>
                     <div class="action-controls">
@@ -194,7 +199,13 @@
 
                 <div id="gallery-view" class="hidden">
                     <div class="posts-list" id="gallery-list">
-                        <div class="loading">Loading gallary items...</div>
+                        <div class="loading">Loading gallery items...</div>
+                    </div>
+                </div>
+
+                <div id="resources-view" class="hidden">
+                    <div class="posts-list" id="resources-list">
+                        <div class="loading">Loading resources...</div>
                     </div>
                 </div>
             </main>
@@ -570,6 +581,52 @@
                         <label>
                             <input type="checkbox" id="gallery-pinned">
                             Pin this item
+                        </label>
+                    </div>
+                </form>
+            </main>
+        </div>
+        <!-- Resources Editor Screen -->
+        <div id="resources-editor-screen" class="admin-screen hidden">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button id="resources-back-btn" class="button button--outline"><i class="fas fa-arrow-left"></i> Back</button>
+                    <h1 id="resources-editor-title">New Resource</h1>
+                </div>
+                <div class="header-actions">
+                    <span id="resources-save-status"></span>
+                    <button id="resources-save-btn" class="button">Save</button>
+                </div>
+            </header>
+
+            <main class="admin-main editor-layout">
+                <form id="resources-form" class="editor-form">
+                    <div class="form-group">
+                        <label for="resources-title">Title</label>
+                        <input type="text" id="resources-title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resources-description">Description</label>
+                        <textarea id="resources-description" rows="3" placeholder="Optional description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resources-drive-url">Google Drive URL</label>
+                        <input type="url" id="resources-drive-url" placeholder="https://drive.google.com/..." required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="resources-display-order">Display Order</label>
+                            <input type="number" id="resources-display-order" min="0" value="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="resources-pinned">
+                            Pinned (Show on top)
                         </label>
                     </div>
                 </form>

@@ -11,7 +11,8 @@ export const screens = {
     projectEditor: null,
     teamMemberEditor: null,
     eventEditor: null,
-    galleryEditor: null
+    galleryEditor: null,
+    resourceEditor: null
 };
 
 /**
@@ -25,6 +26,7 @@ export function initScreens() {
     screens.teamMemberEditor = document.getElementById('team_member-editor-screen');
     screens.eventEditor = document.getElementById('event-editor-screen');
     screens.galleryEditor = document.getElementById('gallery-editor-screen');
+    screens.resourceEditor = document.getElementById('resources-editor-screen');
 }
 
 /**
@@ -91,7 +93,7 @@ export function switchTab(tab, loadDataCallback) {
     if (tabBtn) tabBtn.classList.add('active');
 
     // Hide all views
-    const views = ['posts', 'projects', 'experiences', 'achievements', 'gallery', 'profile'];
+    const views = ['posts', 'projects', 'experiences', 'achievements', 'gallery', 'resources', 'profile'];
     views.forEach(view => {
         const viewEl = document.getElementById(`${view}-view`);
         if (viewEl) viewEl.classList.add('hidden');
